@@ -1,94 +1,110 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CharacterAnimator : MonoBehaviour
 {
-    public Sprite[] walkSSFrames;
-    public Sprite[] walkSWFrames;
-    public Sprite[] walkWWFrames;
-    public Sprite[] walkNWFrames;
-    public Sprite[] walkNNFrames;
-    public Sprite[] walkNEFrames;
-    public Sprite[] walkEEFrames;
-    public Sprite[] walkSEFrames;
-    
-    private int curFrame;
-    private float timer;
-    private float framerate = .1f;
-    private bool active = false;
 
-    private Sprite[] curFrames;
+    public Sprite[] idleDownFrames;
+    public Sprite[] idleUpFrames;
+    public Sprite[] idleLeftFrames;
+    public Sprite[] idleRightFrames;
+    public Sprite[] walkDownFrames;
+    public Sprite[] walkUpFrames;
+    public Sprite[] walkLeftFrames;
+    public Sprite[] walkRightFrames;
+    
+    private Sprite[] currentFrames;
     private SpriteRenderer spriteRenderer;
+
+    private float timer = 0f;
+    private int frameNumber = 0;
+    private float frameRate = 1 / 10f;
+    private CharacterAnimationType currentAnimationType;
+
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        PlayAnimation(Direction.SE);
     }
 
 
     void Update()
     {
-        if (active) {
-            UpdateAnimation();
-        }
+        UpdateFrame();
     }
 
 
-    private void UpdateAnimation() {
+    private void UpdateFrame() {
         timer += Time.deltaTime;
 
-        if (timer >= framerate) {
-            timer -= framerate;
-            curFrame = (curFrame + 1) % curFrames.Length;
-            spriteRenderer.sprite = curFrames[curFrame];
+        if (timer >= frameRate) {
+            timer -= frameRate;
+            frameNumber = (frameNumber + 1) % currentFrames.Length;
+            spriteRenderer.sprite = currentFrames[frameNumber];
         }
     }
 
 
-    public void PlayAnimation(Direction dir) {
+    public void PlayAnimation(CharacterAnimationType animationType) {
         timer = 0;
-        curFrame = 0;
-        active = true;
+        frameNumber = 0;
+        currentAnimationType = animationType;
 
-        switch (dir) {
-            case Direction.EE: {
-                curFrames = walkEEFrames;
+        switch (animationType) {
+            case CharacterAnimationType.IdleUp: {
+                currentFrames = idleUpFrames;
                 break;
             }
-            case Direction.NE: {
-                curFrames = walkNEFrames;
+            case CharacterAnimationType.IdleDown: {
+                currentFrames = idleDownFrames;
                 break;
             }
-            case Direction.NN: {
-                curFrames = walkNNFrames;
+            case CharacterAnimationType.IdleLeft: {
+                currentFrames = idleLeftFrames;
                 break;
             }
-            case Direction.NW: {
-                curFrames = walkNWFrames;
+            case CharacterAnimationType.IdleRight: {
+                currentFrames = idleRightFrames;
                 break;
             }
-            case Direction.SE: {
-                curFrames = walkSEFrames;
+            case CharacterAnimationType.WalkDown: {
+                currentFrames = walkDownFrames;
                 break;
             }
-            case Direction.SS: {
-                curFrames = walkSSFrames;
+            case CharacterAnimationType.WalkLeft: {
+                currentFrames = walkLeftFrames;
                 break;
             }
-            case Direction.SW: {
-                curFrames = walkSWFrames;
+            case CharacterAnimationType.WalkRight: {
+                currentFrames = walkRightFrames;
                 break;
             }
-            case Direction.WW: {
-                curFrames = walkWWFrames;
+            case CharacterAnimationType.WalkUp: {
+                currentFrames = walkUpFrames;
                 break;
             }
         }
     }
 
 
-    public void setActive(bool _active) => active = _active;
+    public void SetAnimation(Vector3 direction) {
+        if (direction.x == 0 && direction.y == 0) {
+            if (currentAnimationType == CharacterAnimationType.WalkUp) {
+                PlayAnimation(CharacterAnimationType.IdleUp);
+            } else if (currentAnimationType == CharacterAnimationType.WalkDown) {
+                PlayAnimation(CharacterAnimationType.IdleDown);
+            } else if (currentAnimationType == CharacterAnimationType.WalkLeft) {
+                PlayAnimation(CharacterAnimationType.IdleLeft);
+            } else if (currentAnimationType == CharacterAnimationType.WalkRight) {
+                PlayAnimation(CharacterAnimationType.IdleRight);
+            }
+        } else if (direction.x > 0) {
+            PlayAnimation(CharacterAnimationType.WalkRight);
+        } else if (direction.x < 0) {
+            PlayAnimation(CharacterAnimationType.WalkLeft);
+        } else if (direction.y > 0) {
+            PlayAnimation(CharacterAnimationType.WalkUp);
+        } else if (direction.y < 0) {
+            PlayAnimation(CharacterAnimationType.WalkDown);
+        }
+    }
 }
