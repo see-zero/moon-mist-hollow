@@ -18,12 +18,15 @@ public class CharacterAnimator : MonoBehaviour
     private float timer = 0f;
     private int frameNumber = 0;
     private float frameRate = 1 / 10f;
+
     private CharacterAnimationType currentAnimationType;
 
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        PlayAnimation(CharacterAnimationType.IdleDown);
     }
 
 

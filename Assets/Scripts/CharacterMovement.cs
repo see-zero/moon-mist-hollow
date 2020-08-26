@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class CharacterMovement : MonoBehaviour
 {
-    private int decisionClock = 0;
-    private int decisionTime = 260;
+    private float decisionClock = 0;
+    private float decisionTime = 3.6f;
 
     public float speed = 2.4f;
     private Vector2 direction = Vector2.zero;
@@ -27,10 +28,10 @@ public class CharacterMovement : MonoBehaviour
 
 
     private void Tick() {
-        decisionClock++;
+        decisionClock += Time.deltaTime;
 
         if (decisionClock > decisionTime) {
-            decisionClock = 0;
+            decisionClock -= decisionTime;
 
             direction = GetNewDirection();
             animator.SetAnimation(direction);
@@ -44,20 +45,17 @@ public class CharacterMovement : MonoBehaviour
 
 
     private Vector2 GetNewDirection() {
-        System.Random random = new System.Random();
+        Vector3 newDirection = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
+        newDirection = ToIso(newDirection.normalized);
 
-        Vector3 direction = new Vector3(random.Next(-1, 2), random.Next(-1, 2), 0);
-        direction = ToIso(dir.normalized);
-
-        return direction;
+        return newDirection;
     }
 
 
-    private Vector3 ToIso(Vector3 cartesianVec) {
-        return new Vector3(
-            cartesianVec.x - cartesianVec.y, 
-            (cartesianVec.x + cartesianVec.y) / 2,
-            0
+    private Vector2 ToIso(Vector2 cartesianVec) {
+        return new Vector2(
+            cartesianVec.x - cartesianVec.y,
+            (cartesianVec.x + cartesianVec.y) / 2
         ); 
     }
 }
