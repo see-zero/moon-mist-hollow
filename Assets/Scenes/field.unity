@@ -237,8 +237,8 @@ GameObject:
   - component: {fileID: 462908599}
   - component: {fileID: 462908598}
   m_Layer: 9
-  m_Name: Collision1
-  m_TagString: Untagged
+  m_Name: Collision
+  m_TagString: Collision
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4621,7 +4621,7 @@ GameObject:
   - component: {fileID: 555637797}
   - component: {fileID: 555637796}
   m_Layer: 9
-  m_Name: Buildings1
+  m_Name: Buildings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6133,7 +6133,7 @@ GameObject:
   - component: {fileID: 679968047}
   - component: {fileID: 679968046}
   m_Layer: 9
-  m_Name: Tiles1
+  m_Name: Tiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61500,7 +61500,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!4 &1200225068
 Transform:
   m_ObjectHideFlags: 0
@@ -61527,7 +61527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475647b8a6e75462595b3820382774ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathIndex: 0
+  pathIndex: -1
 --- !u!114 &1200225070
 MonoBehaviour:
   m_ObjectHideFlags: 0
